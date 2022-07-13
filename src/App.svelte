@@ -6,6 +6,8 @@
 
   import {setContext} from 'svelte';
 
+  
+
   const myStateObject = {
     name: 'some kind of value here',
     anotherName: 'another value here',
@@ -19,10 +21,20 @@
     expenses = expenses.filter(item => item.id !== id);
   }
 
+  const deleteExpense = (event) => {
+    console.log(event);
+
+    const { id, name } = event.detail;
+    console.log(name);
+  }
+
   // context
   setContext('state', myStateObject);
+
+
+
 </script>
 
 
 <NavBar />
-<ExpensesList {expenses}/>
+<ExpensesList {expenses} on:delete={deleteExpense}/>
