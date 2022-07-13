@@ -10,7 +10,7 @@
 
   <ul>
     {#each expenses as expense}
-      <Expense {...expense} />
+      <Expense {...expense} on:delete />
     {:else}
       <h2>Currently you have no expenses</h2>
     {/each}
