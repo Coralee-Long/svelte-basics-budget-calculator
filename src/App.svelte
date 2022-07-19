@@ -1,28 +1,40 @@
 <script>
-  import SectionTitle from "./components/SectionTitle.svelte";
+  import ExpenseForm from "./components/ExpenseForm.svelte";
+  import { setContext } from "svelte";
+  // Components
   import NavBar from "./components/NavBar.svelte";
-  import expensesData from "./data/expenses";
   import ExpensesList from "./components/ExpensesList.svelte";
-
-  import {setContext} from 'svelte';
-
-  const myStateObject = {
-    name: 'some kind of value here',
-    anotherName: 'another value here',
-    remove: 'removeExpense'
-  }
-
+  import Totals from "./components/Totals.svelte";
+  // Data
+  import expensesData from "./data/expenses";
+  // Variables
   let expenses = [...expensesData];
-  console.log(expenses);
-
+  let totalExpenses;
+  // Reactive
+  $: totalExpenses = expenses.reduce((acc, curr) => {
+    // acc = acculmalator (total amount), curr = current (current amount);
+    // console.log(`The current ACCULMULTOR is: ${acc}`);
+    // console.log(`The CURRENT AMOUNT is: ${curr.amount}`);
+    return (acc += curr.amount);
+  }, 0);
+  // Functions
   const removeExpense = (id) => {
-    expenses = expenses.filter(item => item.id !== id);
-  }
-
-  // context
-  setContext('state', myStateObject);
+    expenses = expenses.filter((item) => item.id !== id);
+  };
+  const clearExpenses = () => {
+    expenses = [];
+  };
+  // Context set up so that all functions can be available in all components
+  const handlerFunctions = {
+    removeExpense: removeExpense,
+    clearExpenses: clearExpenses, // (nameOfKey: functionName)
+  };
+  setContext("handlerFunctions", handlerFunctions);
 </script>
 
-
 <NavBar />
-<ExpensesList {expenses}/>
+<main class="content">
+  <ExpenseForm />
+  <Totals title="Total Expenses" {totalExpenses} />
+  <ExpensesList {expenses} />
+</main>
