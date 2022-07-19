@@ -10,7 +10,7 @@
     displayAmount = !displayAmount;
   }
 
-  const removeExpense = getContext('remove');
+  const {removeExpense} = getContext('handlerFunctions');
 
 </script>
 
