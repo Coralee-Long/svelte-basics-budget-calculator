@@ -13,17 +13,19 @@
   // Variables
   let expenses = [...expensesData];
   let totalExpenses;
+  let name;
+  let amount;
+  let id;
   // Set Edit Variables
-  let editName = "";
-  let editAmount = null;
-  let editId = null;
+  let setName = "";
+  let setAmount = null;
+  let setId = null;
   // Reactive
+  $: isEditing = setId ? true : false;
   $: totalExpenses = expenses.reduce((acc, curr) => {
-    // acc = acculmalator (total amount), curr = current (current amount);
-    // console.log(`The current ACCULMULTOR is: ${acc}`);
-    // console.log(`The CURRENT AMOUNT is: ${curr.amount}`);
     return (acc += curr.amount);
   }, 0);
+
   // Functions
   const removeExpense = (id) => {
     expenses = expenses.filter((item) => item.id !== id);
@@ -35,14 +37,16 @@
     let expense = { id: Math.random() * Date.now(), name, amount };
     expenses = [expense, ...expenses];
   };
-  const editExpense = (id) => {
+  const setModifiedExpense = (id) => {
     let expense = expenses.find((item) => item.id === id);
-    // console.log(expense);
-    let editName = expense.name;
-    let editAmount = expense.amount;
-    let editId = expense.id;
-    // console.log(editName, editAmount, editId);
-    // console.log({ editName, editAmount, editId });
+    setName = expense.name;
+    setAmount = expense.amount;
+    setId = expense.id;
+    isEditing = true; // Weird change I had to make since isEditing was false on first click of edit button
+    console.log({ expense });
+    console.log({ setName, setAmount, setId });
+    console.log({ name, amount, id });
+    console.log({ isEditing });
   };
 
   // Context set up so that all functions can be available in all components
@@ -50,14 +54,14 @@
     removeExpense: removeExpense,
     clearExpenses: clearExpenses, // (nameOfKey: functionName)
     addExpense: addExpense,
-    editExpense: editExpense,
+    setModifiedExpense: setModifiedExpense,
   };
   setContext("handlerFunctions", handlerFunctions);
 </script>
 
 <NavBar />
 <main class="content">
-  <ExpenseForm />
+  <ExpenseForm name={setName} amount={setAmount} />
   <Totals title="Total Expenses" {totalExpenses} />
   <ExpensesList {expenses} />
 </main>
