@@ -5,7 +5,7 @@
 
   export let expenses = [];
 
-  const  {clearExpenses} = getContext('handlerFunctions')
+  const  {clearExpenses} = getContext('handlerFunctions');
 
 </script>
 

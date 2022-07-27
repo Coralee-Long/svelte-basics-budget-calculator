@@ -1,32 +1,42 @@
 <script>
-    import Title from './SectionTitle.svelte';
-    let name ='';   // empty string: falsey
-    let amount = null;  // null: falsey
+  import { getContext } from "svelte";
+  import Title from "./SectionTitle.svelte";
+  export let name = ""; // empty string: falsey
+  export let amount = null; // null: falsey
 
-    $: isEmpty = !name || !amount;
-        // If {name} is truthy, console log:
-    if (name) {
-       console.log('name value is truthy');
-    };
+  const { addExpense } = getContext("handlerFunctions");
 
-  
+  $: isEmpty = !name || !amount;
+
+  const formHandler = () => {
+    addExpense({ name, amount });
+    name = "";
+    amount = null;
+  };
 </script>
 
 <section class="form">
-    <Title title='Add Expense'/>
-    <form action="" class="expense-form">
-        <div class="form-control">
-            <label for="name">Name</label>
-            <input type="text" id='name' bind:value={name}>
-        </div>
-        <div class="form-control">
-            <label for="amount">Amount</label>
-            <input type="number" id='amount' bind:value={amount}>
-        </div>
-        {#if isEmpty}
-        <p class="form-empty">Please fill out all fields</p> 
-        {/if}
-        <button disabled={isEmpty} type='submit' class='btn btn-block' class:disabled={isEmpty}>Add Expense</button> 
-        <button type='button' class='close-btn'><i class="fas fa-times"/>Close</button>
-    </form>
+  <Title title="Add Expense" />
+  <form action="" class="expense-form" on:submit|preventDefault={formHandler}>
+    <div class="form-control">
+      <label for="name">Name</label>
+      <input type="text" id="name" bind:value={name} />
+    </div>
+    <div class="form-control">
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" bind:value={amount} />
+    </div>
+    {#if isEmpty}
+      <p class="form-empty">Please fill out all fields</p>
+    {/if}
+    <button
+      disabled={isEmpty}
+      type="submit"
+      class="btn btn-block"
+      class:disabled={isEmpty}>Add Expense</button
+    >
+    <button type="button" class="close-btn"
+      ><i class="fas fa-times" />Close</button
+    >
+  </form>
 </section>
