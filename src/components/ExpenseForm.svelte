@@ -1,31 +1,22 @@
 <script>
+  import { getContext } from "svelte";
   import Title from "./SectionTitle.svelte";
-  let name = ""; // empty string: falsey
-  let amount = null; // null: falsey
+  export let name = ""; // empty string: falsey
+  export let amount = null; // null: falsey
+
+  const { addExpense } = getContext("handlerFunctions");
 
   $: isEmpty = !name || !amount;
 
-  // Vanilla JS way to prevent Default on form:
-
-  //   const formHandler = (e) => {
-  //     e.preventDefault();
-  //   };
-
   const formHandler = () => {
-    console.log("form submitted");
-    console.log({ name, amount });
+    addExpense({ name, amount });
     name = "";
     amount = null;
-    console.log({ name, amount });
   };
 </script>
 
 <section class="form">
   <Title title="Add Expense" />
-  <!-- // Vanilla JS way to prevent Default on form: -->
-  <!-- <form action="" class="expense-form" on:submit={formHandler}> -->
-
-  <!-- // Svelte in-line modifier method: -->
   <form action="" class="expense-form" on:submit|preventDefault={formHandler}>
     <div class="form-control">
       <label for="name">Name</label>
