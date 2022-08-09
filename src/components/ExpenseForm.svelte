@@ -3,20 +3,22 @@
   import Title from "./SectionTitle.svelte";
   export let name = ""; // empty string: falsey
   export let amount = null; // null: falsey
-  let isEditing;
+  export let isEditing;
 
-  const { addExpense } = getContext("handlerFunctions");
+  const { addExpense, editExpense, hideForm } = getContext("handlerFunctions");
 
   $: isEmpty = !name || !amount;
   $: buttonText = isEditing ? "Edit Expense" : "Add Expense";
 
   const formHandler = () => {
-    addExpense({ name, amount });
+    if (isEditing) {
+      editExpense({ name, amount });
+    } else {
+      addExpense({ name, amount });
+    }
     name = "";
     amount = null;
-    console.log({ name, amount });
   };
-  console.log({ isEditing });
 </script>
 
 <section class="form">
@@ -33,14 +35,11 @@
     {#if isEmpty}
       <p class="form-empty">Please fill out all fields</p>
     {/if}
-    <button
-      disabled={isEmpty}
-      type="submit"
-      class="btn btn-block"
-      class:disabled={isEmpty}
+
+    <button type="submit" class="btn btn-block" class:disabled={isEmpty}
       >{buttonText}
     </button>
-    <button type="button" class="close-btn"
+    <button type="button" class="close-btn" on:click={hideForm}
       ><i class="fas fa-times" />Close</button
     >
   </form>
