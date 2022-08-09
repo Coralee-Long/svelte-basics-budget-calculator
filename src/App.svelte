@@ -29,7 +29,19 @@
     return (acc += curr.amount);
   }, 0);
 
+  // Toggle Form Variables
+  let isFormOpen = false;
+
   // Functions
+  const showForm = () => {
+    isFormOpen = true;
+  };
+  const hideForm = () => {
+    isFormOpen = false;
+    setId = null;
+    setName = "";
+    setAmount = null;
+  };
   const removeExpense = (id) => {
     expenses = expenses.filter((item) => item.id !== id);
   };
@@ -39,12 +51,14 @@
   const addExpense = ({ name, amount }) => {
     let expense = { id: Math.random() * Date.now(), name, amount };
     expenses = [expense, ...expenses];
+    hideForm();
   };
   const setModifiedExpense = (id) => {
     let expense = expenses.find((item) => item.id === id);
     setId = expense.id;
     setName = expense.name;
     setAmount = expense.amount;
+    showForm();
   };
   const editExpense = ({ name, amount }) => {
     expenses = expenses.map((item) => {
@@ -57,10 +71,13 @@
     setId = null;
     setName = "";
     setAmount = null;
+    hideForm();
   };
 
   // Context set up so that all functions can be available in all components
   const handlerFunctions = {
+    showForm: showForm,
+    hideForm: hideForm,
     removeExpense: removeExpense,
     clearExpenses: clearExpenses, // (nameOfKey: functionName)
     addExpense: addExpense,
@@ -72,7 +89,9 @@
 
 <NavBar />
 <main class="content">
-  <ExpenseForm name={setName} amount={setAmount} {isEditing} />
+  {#if isFormOpen}
+    <ExpenseForm name={setName} amount={setAmount} {isEditing} />
+  {/if}
   <Totals title="Total Expenses" {totalExpenses} />
   <ExpensesList {expenses} />
 </main>

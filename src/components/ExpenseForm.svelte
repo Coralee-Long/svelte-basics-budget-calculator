@@ -5,7 +5,7 @@
   export let amount = null; // null: falsey
   export let isEditing;
 
-  const { addExpense, editExpense } = getContext("handlerFunctions");
+  const { addExpense, editExpense, hideForm } = getContext("handlerFunctions");
 
   $: isEmpty = !name || !amount;
   $: buttonText = isEditing ? "Edit Expense" : "Add Expense";
@@ -36,14 +36,10 @@
       <p class="form-empty">Please fill out all fields</p>
     {/if}
 
-    <button
-      disabled={isEmpty}
-      type="submit"
-      class="btn btn-block"
-      class:disabled={isEmpty}
+    <button type="submit" class="btn btn-block" class:disabled={isEmpty}
       >{buttonText}
     </button>
-    <button type="button" class="close-btn"
+    <button type="button" class="close-btn" on:click={hideForm}
       ><i class="fas fa-times" />Close</button
     >
   </form>
