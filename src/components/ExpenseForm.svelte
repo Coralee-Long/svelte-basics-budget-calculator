@@ -21,23 +21,6 @@
     amount = null;
   };
 
-  // Life Cycles:
-
-  // onMount(() => {
-  //   console.log('form has mounted');
-  // })
-
-  //  beforeUpdate(() => {
-  //   console.count('before update');
-  // })
-
-  //  afterUpdate(() => {
-  //   console.count('after update');
-  // })
-
-  //  onDestroy(() => {
-  //   console.log('form is hidden');
-  // })
 </script>
 
 <section class="form">

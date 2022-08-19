@@ -108,20 +108,18 @@
    afterUpdate(() => {
     setLocalStorage();
    });
-   
 </script>
 
 
 <NavBar />
 <main class="content">
   {#if isFormOpen}
+  <Modal>
     <ExpenseForm name={setName} amount={setAmount} {isEditing} />
+    </Modal>
   {/if}
   <Totals title="Total Expenses" {totalExpenses} />
   <ExpensesList {expenses} />
 </main>
-<Modal>
-  <h1 slot="heading">Here is my Heading</h1>
-  <p slot="info">Here is my information Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit magni, inventore hic ab delectus corrupti repellat sapiente cupiditate impedit ullam officiis, harum nisi. Similique cupiditate iure officia eius enim consequuntur?</p>
-</Modal>
+
  
