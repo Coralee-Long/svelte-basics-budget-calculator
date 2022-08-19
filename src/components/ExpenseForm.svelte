@@ -23,21 +23,21 @@
 
   // Life Cycles:
 
-  onMount(() => {
-    console.log('form has mounted');
-  })
+  // onMount(() => {
+  //   console.log('form has mounted');
+  // })
 
-   beforeUpdate(() => {
-    console.count('before update');
-  })
+  //  beforeUpdate(() => {
+  //   console.count('before update');
+  // })
 
-   afterUpdate(() => {
-    console.count('after update');
-  })
+  //  afterUpdate(() => {
+  //   console.count('after update');
+  // })
 
-   onDestroy(() => {
-    console.log('form is hidden');
-  })
+  //  onDestroy(() => {
+  //   console.log('form is hidden');
+  // })
 </script>
 
 <section class="form">
